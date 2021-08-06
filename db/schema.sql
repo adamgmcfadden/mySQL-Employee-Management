@@ -1,6 +1,6 @@
 -- If table exists, drop it for seemless update --
 DROP TABLE IF EXISTS employee;
-DROP TABLE IF EXISTS role;
+DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS department;
 
 -- create employee table -- 
@@ -16,13 +16,13 @@ CREATE TABLE employee (
     -- employee's manager ID if exists --
     manager_id INTEGER,
     -- FK link role_id to role table PK --
-    FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE SET NULL,
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL,
     -- FK link manager_id to role table PK --
-    FOREIGN KEY (manager_id) REFERENCES role(id) ON DELETE SET NULL
+    FOREIGN KEY (manager_id) REFERENCES roles(id) ON DELETE SET NULL
 );
 
 -- create role table --
-CREATE TABLE role (
+CREATE TABLE roles (
     -- role id, PK, auto incrementing --
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     -- role titles cannot be null --
@@ -40,5 +40,5 @@ CREATE TABLE department (
     -- department id, PK, auto-incrementing --
     id INTEGER AUTO_INCREMENT PRIMARY KEY,
     -- department name, cannot be null --
-    name VARCHAR(30) NOT NULL
+    dept_name VARCHAR(30) NOT NULL
 );
