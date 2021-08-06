@@ -35,7 +35,7 @@ For more information on the Licenses used, click on the links below.
 
 [License: MIT](https://choosealicense.com/licenses/mit/)
 
-[License: ISC](https://opensource.org/licenses/BSD-2-Clause)
+[License: BSD-2-Clause](https://opensource.org/licenses/BSD-2-Clause)
 
 ## Contributing
 
