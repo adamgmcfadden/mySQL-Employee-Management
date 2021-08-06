@@ -34,7 +34,8 @@ Project idea and mock-up provided by Carleton University. All code provided by A
 For more information on the Licenses used, click on the links below.
 
 [License: MIT](https://choosealicense.com/licenses/mit/)
-[License: MIT](https://choosealicense.com/licenses/isc/)
+
+[License: ISC](https://choosealicense.com/licenses/isc/)
 
 ## Contributing
 
