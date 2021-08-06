@@ -1,0 +1,25 @@
+{
+  "name": "mysql-employee-management",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adamgmcfadden/mySQL-Employee-Management.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adamgmcfadden/mySQL-Employee-Management/issues"
+  },
+  "homepage": "https://github.com/adamgmcfadden/mySQL-Employee-Management#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "hide-secrets": "^2.0.0",
+    "inquirer": "^8.1.2",
+    "mysql2": "^2.3.0"
+  }
+}
