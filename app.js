@@ -27,6 +27,8 @@ const manageEmployees = () => {
           "View All Employees By Department",
           "View All Employees By Manager",
           "Add Employee",
+          "Add Department",
+          "Add Role",
           "Remove Employee",
           "Update Employee Role",
           "Update Employee Manager",
@@ -37,22 +39,37 @@ const manageEmployees = () => {
       //deconstruct "name:" and save as choice parameter
       const { interface } = choice;
 
+      //view all employees
       if (interface === "View All Employees") {
         return viewAllEmployees();
+        //view all departments
       } else if (interface === "View All Departments") {
         return viewAllDepartments();
+        //view all roles
       } else if (interface === "View All Roles") {
         return viewAllRoles();
+        //view employees by department
       } else if (interface === "View All Employees By Department") {
         return viewAllByDepartment();
+        //view employees by manager
       } else if (interface === "View All Employees By Manager") {
         return viewAllByManager();
+        //add new Employees
       } else if (interface === "Add Employee") {
         return addNewEmployee();
+        //add new departments
+      } else if (interface === "Add Department") {
+        return addNewDepartment();
+        //add new roles
+      } else if (interface === "Add Role") {
+        return addNewRole();
+        //remove existing employees
       } else if (interface === "Remove Employee") {
         return removeEmployee();
+        //update employee role
       } else if (interface === "Update Employee Role") {
         return updateEmplRole();
+        //update employee manager
       } else if (interface === "Update Employee Manager") {
         return updateEmplManager();
       }
@@ -349,6 +366,40 @@ const addNewEmployee = () => {
                 });
             });
           });
+      });
+    });
+};
+
+//add a new department
+const addNewDepartment = () => {
+  //prompt user to enter a new Department name
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "department",
+        message: "Enter new Department",
+        //department name must be entered
+        validate: (name) => {
+          if (name) {
+            return true;
+          } else {
+            console.log("A department name is required!");
+          }
+        },
+      },
+    ])
+    .then((choice) => {
+      //save info as array to be used as param in query
+      const deptInfo = [choice.department];
+      //sql - INSERT INTO department - params = ?
+      const sql = `INSERT INTO department (dept_name) Values (?)`;
+      db.query(sql, deptInfo, (err, res) => {
+        if (err) {
+          console.log(err);
+        }
+        console.log("The new department was successfully added!");
+        manageEmployees();
       });
     });
 };
