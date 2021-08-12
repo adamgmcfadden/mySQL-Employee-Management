@@ -22,6 +22,8 @@ const manageEmployees = () => {
         message: "What would you like to do?",
         choices: [
           "View All Employees",
+          "View All Departments",
+          "View All Roles",
           "View All Employees By Department",
           "View All Employees By Manager",
           "Add Employee",
@@ -37,6 +39,10 @@ const manageEmployees = () => {
 
       if (interface === "View All Employees") {
         return viewAllEmployees();
+      } else if (interface === "View All Departments") {
+        return viewAllDepartments();
+      } else if (interface === "View All Roles") {
+        return viewAllRoles();
       } else if (interface === "View All Employees By Department") {
         return viewAllByDepartment();
       } else if (interface === "View All Employees By Manager") {
@@ -60,7 +66,7 @@ const manageEmployees = () => {
 // view all employees function
 const viewAllEmployees = () => {
   //save mysql query as sql to use in actual query below
-  const sql = `SELECT employee.id AS id,
+  const sql = `SELECT employee.id AS ID,
                       employee.first_name,
                       employee.last_name,
                       role.title AS Role,
@@ -72,6 +78,47 @@ const viewAllEmployees = () => {
                       LEFT JOIN department ON role.department_id = department.id
                       LEFT JOIN employee manager ON employee.manager_id = manager.id`;
   //databse query (sql query, callback function)
+  db.query(sql, (err, res) => {
+    //catch errors if any exist
+    if (err) {
+      console.log(err);
+    }
+    //construct table in node.js from query
+    console.table(res);
+    //call initializing function to return to inquirer prompt
+    manageEmployees();
+  });
+};
+
+// view all employees function
+const viewAllDepartments = () => {
+  //save mysql query as sql to use in actual query below
+  const sql = `SELECT department.id AS ID,
+                      department.dept_name AS Department
+               FROM department`;
+  //database query (sql query, callback function)
+  db.query(sql, (err, res) => {
+    //catch errors if any exist
+    if (err) {
+      console.log(err);
+    }
+    //construct table in node.js from query
+    console.table(res);
+    //call initializing function to return to inquirer prompt
+    manageEmployees();
+  });
+};
+
+// view all employees function
+const viewAllRoles = () => {
+  //save mysql query as sql to use in actual query below
+  const sql = `SELECT role.id AS ID,
+                      role.title AS Role,
+                      department.dept_name AS Department,
+                      role.salary AS Salary
+               FROM role
+                      LEFT JOIN Department ON role.department_id = department.id`;
+  //database query (sql query, callback function)
   db.query(sql, (err, res) => {
     //catch errors if any exist
     if (err) {
