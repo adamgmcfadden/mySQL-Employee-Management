@@ -360,7 +360,7 @@ const addNewEmployee = () => {
                     }
                     //If successfull, print success message for user
                     console.log("Employee successfully added to roster!");
-                    //call initializing function to return to inquirer prompt
+                    //call initializing function to return to main inquirer prompt
                     manageEmployees();
                   });
                 });
@@ -398,10 +398,84 @@ const addNewDepartment = () => {
         if (err) {
           console.log(err);
         }
+        //If successfull, print success message for user
         console.log("The new department was successfully added!");
+        //call initializing function to return to main inquirer prompt
         manageEmployees();
       });
     });
+};
+
+const addNewRole = () => {
+  //sql select department Id and name
+  const sql = `SELECT department.id, 
+                      department.dept_name 
+                FROM department`;
+  //db query with sql from above
+  db.query(sql, (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+    //create new array with key and value for role to choose from
+    const chooseDept = res.map(({ id, dept_name }) => ({
+      name: dept_name,
+      value: id,
+    }));
+
+    //prompt user to select a department to update role in
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "department",
+          message: "The role belongs to which department?",
+          choices: chooseDept,
+        },
+        {
+          type: "input",
+          name: "role",
+          message: "What is the new role called?",
+          //input is required
+          validate: (role) => {
+            if (role) {
+              return true;
+            } else {
+              console.log("A role name is required!");
+            }
+          },
+        },
+        {
+          type: "number",
+          name: "salary",
+          message: "Enter the new role's salary",
+          //input is required
+          validate: (salary) => {
+            if (salary) {
+              return true;
+            } else {
+              console.log("You must enter a salary ($/year) for the new role!");
+            }
+          },
+        },
+      ])
+      .then((answer) => {
+        //save role info as array to use as param in sql INSERT
+        const roleInfo = [answer.department, answer.role, answer.salary];
+        //sql insert into role (.......)
+        const sql = `INSERT INTO role (department_id, title, salary) 
+        Values (?, ?, ?)`;
+        //database query , use sql query and roleInfo as params
+        db.query(sql, roleInfo, (err, res) => {
+          if (err) {
+            console.log(err);
+          }
+          //If successfull, print success message for user
+          console.log("Role successfully added!");
+          //call initializing function to return to main inquirer prompt
+          manageEmployees();
+        });
+      });
+  });
 };
 
 //function to remove employee
