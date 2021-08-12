@@ -44,7 +44,7 @@ const manageEmployees = () => {
       } else if (interface === "Add Employee") {
         return addNewEmployee();
       } else if (interface === "Remove Employee") {
-        return "Remove Employee";
+        return removeEmployee();
       } else if (interface === "Update Employee Role") {
         return "Update Employee Role";
       } else if (interface === "Update Employee Manager") {
@@ -286,15 +286,17 @@ const addNewEmployee = () => {
                   }
                   //push chosenManager to Employee Array
                   newEmplArray.push(chosenManager);
+                  //sql variable to use in db.query - INSERT INTO employee(.....)
                   const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) 
                   Values (?, ?, ?, ?)`;
+                  //database query - use newEmplArray as paramater to INSERT employee into db
                   db.query(sql, newEmplArray, (err, res) => {
                     if (err) {
                       console.log(err);
                     }
-                    //Success Message
+                    //If successfull, print success message for user
                     console.log("Employee successfully added to roster!");
-
+                    //call initializing function to return to inquirer prompt
                     manageEmployees();
                   });
                 });
@@ -302,4 +304,40 @@ const addNewEmployee = () => {
           });
       });
     });
+};
+
+//function to remove employee
+const removeEmployee = () => {
+  const sql = `SELECT * FROM employee`;
+  db.query(sql, (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+    //create new array with key and value for role to choose from
+    const chooseEmployee = res.map(({ id, first_name, last_name }) => ({
+      name: first_name + " " + last_name,
+      value: id,
+    }));
+    //prompt user with list of employee to choose from
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "employee",
+          message: "select which employee to delete",
+          choices: chooseEmployee,
+        },
+      ])
+      .then((choice) => {
+        const { employee } = choice;
+        const sql = `DELETE FROM employee WHERE id = ?`;
+        db.query(sql, employee, (err, res) => {
+          console.log(err);
+        });
+        //If successfull, print success message for user
+        console.log(`Employee was deleted from the database!`);
+        //call initializing function to return to main prompt
+        manageEmployees();
+      });
+  });
 };
