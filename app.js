@@ -48,7 +48,7 @@ const manageEmployees = () => {
       } else if (interface === "Update Employee Role") {
         return updateEmplRole();
       } else if (interface === "Update Employee Manager") {
-        return "Update Employee Manager";
+        return updateEmplManager();
       }
     })
     //catch errors in returns if exists
@@ -324,7 +324,7 @@ const removeEmployee = () => {
         {
           type: "list",
           name: "employee",
-          message: "select which employee to delete",
+          message: "Which employee would you like to delete?",
           choices: chooseEmployee,
         },
       ])
@@ -361,7 +361,7 @@ const updateEmplRole = () => {
         {
           type: "list",
           name: "employee",
-          message: "select which employee to update",
+          message: "Which employee would you like to update?",
           choices: chooseEmployee,
         },
       ])
@@ -383,7 +383,7 @@ const updateEmplRole = () => {
             .prompt({
               type: "list",
               name: "role",
-              message: "Select new role",
+              message: "Select the employee's new role",
               choices: chooseRole,
             })
             .then((choice) => {
@@ -397,7 +397,72 @@ const updateEmplRole = () => {
                   console.log(err);
                 }
                 //If successfull, print success message for user
-                console.log("Employee role successfully updated!");
+                console.log("The employee's role was successfully updated!");
+                //call initializing function to return to main prompt
+                manageEmployees();
+              });
+            });
+        });
+      });
+  });
+};
+
+const updateEmplManager = () => {
+  //db query with SQL to select all employees
+  db.query(`SELECT * FROM employee`, (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+    //create new array with key and value for role to choose from
+    const chooseEmployee = res.map(({ id, first_name, last_name }) => ({
+      name: first_name + " " + last_name,
+      value: id,
+    }));
+    // prompt user with a list of all employees to choose from
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "employee",
+          message: "Which employee would you like to update?",
+          choices: chooseEmployee,
+        },
+      ])
+      .then((choice) => {
+        //create an array to hold employee information
+        const emplInfo = [choice.employee];
+        //query to Select all employees with no manager or manager id = 36 (general manager)
+        const sql = `SELECT * FROM employee WHERE manager_id = 36 OR manager_id is NULL`;
+        //database query
+        db.query(sql, (err, res) => {
+          if (err) {
+            console.log(err);
+          }
+          //create new array with key and value for role to choose from
+          const chooseManager = res.map(({ id, first_name, last_name }) => ({
+            name: first_name + " " + last_name,
+            value: id,
+          }));
+
+          //prompt user with list of managers to choose from
+          inquirer
+            .prompt({
+              type: "list",
+              name: "manager",
+              message: "Select new manager",
+              choices: chooseManager,
+            })
+            .then((choice) => {
+              //ensure proper order employee info so it can be inserted into database correctly
+              emplInfo.unshift(choice.manager);
+              const sql = `UPDATE employee SET manager_id = ? WHERE id = ?`;
+              // update employee with new manager
+              db.query(sql, emplInfo, (err, res) => {
+                if (err) {
+                  console.log(err);
+                }
+                //If successfull, print success message for user
+                console.log("The employee's manager was successfully updated!");
                 //call initializing function to return to main prompt
                 manageEmployees();
               });
