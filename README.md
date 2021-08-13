@@ -39,6 +39,7 @@ To start the app, at the command line, type in < node app.js >.
 Video link will be added soon.
 
 **Screenshot of App Main Screen**
+
 ![Screenshot](https://user-images.githubusercontent.com/83710803/129384374-e16b4bc2-88bd-4501-9a33-53279e847832.png)
 
 ## Credits
