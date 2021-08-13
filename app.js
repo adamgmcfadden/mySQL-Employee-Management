@@ -14,6 +14,10 @@ db.connect((err) => {
 
 //write function to start app - inquirer "list" of question, then return outcome for each selection
 const manageEmployees = () => {
+  console.log(`
+
+    --------------------------------------------------------------------------------------------------------
+  `);
   inquirer
     .prompt([
       {
@@ -84,16 +88,16 @@ const manageEmployees = () => {
 const viewAllEmployees = () => {
   //save mysql query as sql to use in actual query below
   const sql = `SELECT employee.id AS ID,
-                      employee.first_name,
-                      employee.last_name,
-                      role.title AS Role,
-                      department.dept_name AS Department,
-                      role.salary AS Salary,
-                      CONCAT (manager.first_name, " ",manager.last_name) AS Manager
-               FROM employee
-                      LEFT JOIN role ON employee.role_id = role.id
-                      LEFT JOIN department ON role.department_id = department.id
-                      LEFT JOIN employee manager ON employee.manager_id = manager.id`;
+                        employee.first_name,
+                        employee.last_name,
+                        role.title AS Role,
+                        department.dept_name AS Department,
+                        role.salary AS Salary,
+                        CONCAT (manager.first_name, " ",manager.last_name) AS Manager
+                 FROM employee
+                        LEFT JOIN role ON employee.role_id = role.id
+                        LEFT JOIN department ON role.department_id = department.id
+                        LEFT JOIN employee manager ON employee.manager_id = manager.id`;
   //databse query (sql query, callback function)
   db.query(sql, (err, res) => {
     //catch errors if any exist
@@ -643,3 +647,5 @@ const updateEmplManager = () => {
       });
   });
 };
+
+module.exports = manageEmployees;
