@@ -1,11 +1,13 @@
-//import required packages - dotenv to hide credentials and mysql2 to create connection
+// Import ALL Dependencies - dotenv to hide credentials and mysql2 to create connection
+// ====================================================================================
+
 require("dotenv").config();
 const mysql = require("mysql2");
 
-//store variable for ease of use
+// Store variable for ease of use
 const secure = process.env;
 
-//Connect to database
+// Connect to database
 const db = mysql.createConnection(
   {
     host: secure.DB_HOST,
@@ -38,7 +40,7 @@ const db = mysql.createConnection(
      |                    |_|           |_____/                                  |
      |     __  __                                                       __       |
      |    |  '/  | __ _ _ ___  __ _  __ _  ___  _ ___ ___  ___  _ ___ _|  |_     |
-     |    | |'/| |/ _' | '_  |/ _' |/ _' |/ _ || '_  '_  |/ _ ||  _' |_    _|    |
+     |    | |'/| |/ _' | '_  |/ _' |/ _' |/ _ || '_  '_  |/ _ || '_  |_    _|    |
      |    | |  | | (_| | | | | (_| | (_| |  __/| | | | | |  __/| | | | |  |      |
      |    |_|  |_|,__,_|_| |_|,__,_|,__, |____||_| |_| |_|____||_| |_| |__|      |
      |                             |_____/                                       |
@@ -46,5 +48,5 @@ const db = mysql.createConnection(
      '---------------------------------------------------------------------------'`)
 );
 
-//export db
+//export db to complete connection in app.js
 module.exports = db;

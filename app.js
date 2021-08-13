@@ -40,6 +40,7 @@ const manageEmployees = () => {
           "Remove Employee",
           "Update Employee Role",
           "Update Employee Manager",
+          "View Department Employee Budgets",
         ],
       },
     ])
@@ -80,6 +81,8 @@ const manageEmployees = () => {
         //update employee manager
       } else if (interface === "Update Employee Manager") {
         return updateEmplManager();
+      } else if (interface === "View Department Employee Budgets") {
+        return deptEmplBudget();
       }
     })
     //catch errors in returns if exists
@@ -679,5 +682,45 @@ const updateEmplManager = () => {
   });
 };
 
-//              --Tally Employee Salaries Function (QUERY)--
+//             --Department Employee Budget Function (QUERY)--
 // -----------------------------------------------------------------------
+
+const deptEmplBudget = () => {
+  //query to Select all departments
+  db.query(`SELECT * FROM department`, (err, res) => {
+    if (err) {
+      console.log(err);
+    }
+    //create new array with key and value for role to choose from
+    const chooseDept = res.map(({ id, dept_name }) => ({
+      name: dept_name,
+      value: id,
+    }));
+    //prompt the user to choose from list of departments
+    inquirer
+      //select depo
+      .prompt([
+        {
+          type: "list",
+          name: "deptBudget",
+          message: "Which department's employee budget would you like to see?",
+          choices: chooseDept,
+        },
+      ])
+      .then((choice) => {
+        //deconstruct "name:" and save as choice parameter
+        const { deptBudget } = choice;
+        //Select sum of salaries from role where dept id = ?
+        const sql = `SELECT SUM(salary) AS Department_Budget FROM role WHERE department_id = ?`;
+        db.query(sql, deptBudget, (err, res) => {
+          if (err) {
+            console.log(err);
+          }
+          //print table of results to node
+          console.table(res);
+          //call initializing function to return to main prompt
+          manageEmployees();
+        });
+      });
+  });
+};

@@ -44,4 +44,5 @@ CREATE TABLE employee (
     FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE SET NULL
 );
 
+-- removes error 1452 (23000) when reloading seeds
 SET FOREIGN_KEY_CHECKS=0;
