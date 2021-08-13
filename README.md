@@ -3,7 +3,7 @@
 ## Project Description
 
 ![License](https://img.shields.io/badge/License-MIT-blue.svg "License Badge")
-![License](https://img.shields.io/badge/License-ISC-green.svg "License Badge")
+![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg "License Badge")
 
 An application that allows a business owners and/or management to manage the departments, roles and employees at their company from the command-line so they can easily organize that aspect of their business.
 
@@ -35,7 +35,7 @@ For more information on the Licenses used, click on the links below.
 
 [License: MIT](https://choosealicense.com/licenses/mit/)
 
-[License: ISC](https://choosealicense.com/licenses/isc/)
+[License: BSD-2-Clause](https://opensource.org/licenses/BSD-2-Clause)
 
 ## Contributing
 
