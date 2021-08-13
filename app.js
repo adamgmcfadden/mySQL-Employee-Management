@@ -647,5 +647,3 @@ const updateEmplManager = () => {
       });
   });
 };
-
-module.exports = manageEmployees;
