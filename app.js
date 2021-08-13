@@ -1,9 +1,11 @@
-// import all dependencies --inquirer, console.table and db connection from ./db/connection
+// IMPORT all dependencies --inquirer, console.table and db connection from ./db/connection
+// ===============================================================================
 const inquirer = require("inquirer");
 const cTable = require("console.table");
 const db = require("./db/connection");
 
-//connect to sql database, if error, log error, else run manageEmployees function
+// CONNECT to sql database, if error, log error, else run manageEmployees function
+// ===============================================================================
 db.connect((err) => {
   if (err) {
     console.log(err);
@@ -12,6 +14,8 @@ db.connect((err) => {
   manageEmployees();
 });
 
+// ----------------------------MAIN INQUIRER PROMPT-------------------------------
+// ===============================================================================
 //write function to start app - inquirer "list" of question, then return outcome for each selection
 const manageEmployees = () => {
   console.log(`
@@ -84,7 +88,12 @@ const manageEmployees = () => {
     });
 };
 
-// view all employees function
+// ----------------------------ALL QUERIES-------------------------------
+// ======================================================================
+
+//                --View All Employees Function (QUERY)--
+// -----------------------------------------------------------------------
+
 const viewAllEmployees = () => {
   //save mysql query as sql to use in actual query below
   const sql = `SELECT employee.id AS ID,
@@ -111,7 +120,9 @@ const viewAllEmployees = () => {
   });
 };
 
-// view all employees function
+//                --View All Departments Function (QUERY)--
+// -----------------------------------------------------------------------
+
 const viewAllDepartments = () => {
   //save mysql query as sql to use in actual query below
   const sql = `SELECT department.id AS ID,
@@ -130,7 +141,9 @@ const viewAllDepartments = () => {
   });
 };
 
-// view all employees function
+//                --View All Roles Function (QUERY)--
+// -----------------------------------------------------------------------
+
 const viewAllRoles = () => {
   //save mysql query as sql to use in actual query below
   const sql = `SELECT role.id AS ID,
@@ -152,7 +165,9 @@ const viewAllRoles = () => {
   });
 };
 
-// view employees by Department
+//                --View Employees by Department (QUERY)--
+// -----------------------------------------------------------------------
+
 const viewAllByDepartment = () => {
   //mysql query : Select All from department table
   db.query(`SELECT * FROM department`, (err, res) => {
@@ -198,7 +213,9 @@ const viewAllByDepartment = () => {
   });
 };
 
-//view employees by their manager
+//                --View Employees by Manager (QUERY)--
+// -----------------------------------------------------------------------
+
 const viewAllByManager = () => {
   //save sql query - SELECT all from employee where manager ID = 36 OR NULL (see db/seeds - will make sense)
   const sql = `SELECT * FROM employee WHERE manager_id = 36 OR manager_id is NULL`;
@@ -240,7 +257,8 @@ const viewAllByManager = () => {
   });
 };
 
-//function to add new employee
+//                   --Add New Employee Function (QUERY)--
+// -----------------------------------------------------------------------
 const addNewEmployee = () => {
   //prompt user with question to generate new employee in database
   inquirer
@@ -374,7 +392,9 @@ const addNewEmployee = () => {
     });
 };
 
-//add a new department
+//                --Add New Department Function (QUERY)--
+// -----------------------------------------------------------------------
+
 const addNewDepartment = () => {
   //prompt user to enter a new Department name
   inquirer
@@ -409,6 +429,9 @@ const addNewDepartment = () => {
       });
     });
 };
+
+//                  --Add New Role Function (QUERY)--
+// -----------------------------------------------------------------------
 
 const addNewRole = () => {
   //sql select department Id and name
@@ -482,7 +505,9 @@ const addNewRole = () => {
   });
 };
 
-//function to remove employee
+//                --Remove Employee Function (QUERY)--
+// -----------------------------------------------------------------------
+
 const removeEmployee = () => {
   //database query using sql to select all employee
   db.query(`SELECT * FROM employee`, (err, res) => {
@@ -517,6 +542,9 @@ const removeEmployee = () => {
       });
   });
 };
+
+//              --Update Employee Role Function (QUERY)--
+// -----------------------------------------------------------------------
 
 const updateEmplRole = () => {
   //db query with SQL to select all employees
@@ -583,6 +611,9 @@ const updateEmplRole = () => {
   });
 };
 
+//              --Update Employee Manager Function (QUERY)--
+// -----------------------------------------------------------------------
+
 const updateEmplManager = () => {
   //db query with SQL to select all employees
   db.query(`SELECT * FROM employee`, (err, res) => {
@@ -647,3 +678,6 @@ const updateEmplManager = () => {
       });
   });
 };
+
+//              --Tally Employee Salaries Function (QUERY)--
+// -----------------------------------------------------------------------
