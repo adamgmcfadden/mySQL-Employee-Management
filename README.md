@@ -34,9 +34,7 @@ Congrats! All the required packages have been installed and you're ready to use 
 
 ## Usage
 
-To start the app, at the command line, type in < node app.js >.
-
-Video link will be added soon.
+See instructional video: [Instructional Video](https://drive.google.com/file/d/1KlE_hbW022qqS7Rj9GLNL1_vI9MVx_ZY/view) 
 
 **Screenshot of App Main Screen**
 
